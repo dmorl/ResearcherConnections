@@ -1,4 +1,4 @@
-# Documentation for the WMU Research Topic Visualization project
+# WMU Research Topic Visualization Project
 Daria Orlowska, Data librarian and Assistant Professor at Western Michigan University <br>
 Last updated: 2024-04-22
 
