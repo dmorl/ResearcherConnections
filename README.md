@@ -1,9 +1,9 @@
-# WMU Research Topic Visualization Project
+# WMU Researcher Connections Project
 Daria Orlowska, Data librarian and Assistant Professor at Western Michigan University <br>
 Last updated: 2024-04-22
 
 # Purpose
-The purpose of this project is to identify what research is happening across campus and facillitate more interdisciplinary collaboration by making matches based on research topics. The project originated in August 2019, and sought to capture research tenure-track faculty were engaging in primarily through an API Scopus pull. After discussing the projecw the University Libraries colleagues, the Office of Research and Innovation as well as with Associate Deans for Research, it was determined that using Scopus API is a good start but does not capture researchers on campus who are not participating in "traditional" research scholarship or who do not have articles indexed by Scopus. This current project attempts to build on the previous interation in several ways:
+The purpose of this project is to identify what research is happening across campus and facilitate more interdisciplinary collaboration by making matches based on research topics. The project originated in August 2019, and sought to capture research tenure-track faculty were engaging in primarily through an API Scopus pull. After discussing the projecw the University Libraries colleagues, the Office of Research and Innovation as well as with Associate Deans for Research, it was determined that using Scopus API is a good start but does not capture researchers on campus who are not participating in "traditional" research scholarship or who do not have articles indexed by Scopus. This current project attempts to build on the previous interation in several ways:
 * Expanding the definition of researcher beyond tenure-track faculty, by including anyone who might be producing scholarship
 * Expanding the researcher dataset to include Wmed faculty, who are looking to increase collaboration with WMU
 * Expanding inclusions of researchers with scholarship not indexed by Scopus, but including user-generated research interests from a variety of sources
