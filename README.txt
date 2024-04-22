@@ -1,167 +1,78 @@
 Documentation for the WMU Research Topic Visualization project
-Created by: Daria Orlowska
-Last updated: 2019-12-12
+Daria Orlowska, Data librarian and Assistant Professor at Western Michigan University
+Last updated: 2024-04-22
 
-# Department faculty pull from directory
-Conducted on: 2019-08-12
-Each department was individually accessed through the website https://wmich.edu/directories/departments/
+# Purpose
+The purpose of this project is to identify what research is happening across campus and facillitate more interdisciplinary collaboration by making matches based on research topics. The project originated in August 2019, and sought to capture research tenure-track faculty were engaging in primarily through an API Scopus pull. After discussing the projecw the University Libraries colleagues, the Office of Research and Innovation as well as with Associate Deans for Research, it was determined that using Scopus API is a good start but does not capture researchers on campus who are not participating in "traditional" research scholarship or who do not have articles indexed by Scopus. This current project attempts to build on the previous interation in several ways:
+	* Expanding the definition of researcher beyond tenure-track faculty, by including anyone who might be producing scholarship at the university
+	* Expanding the researcher dataset to include Wmed faculty, who are looking to increase collaboration with WMU
+	* Expanding inclusions of researchers with scholarship not indexed by Scopus, but including user-generated research interests from a variety of sources
 
-## The following xpath queries were used in the browser add-on Xpath Helper to pull names and titles:
-	* Name: //div[@class='views-field views-field-title']/span[@class='field-content']
-	* Title: //div[@class='views-field views-field-field-official-title']/div[@class='field-content']
+Project output include three main files, which in conjunction can be used to facilitate conversation about possible research collaborators:
+	* An Excel spreadsheet containing information about the researcher (researcherID, name, alternate name, title, affiliation, ORCiD ID, ORCiD profile metadata, ScopusID(s), directory metadata)
+	* A csv obtained from the Scopus API pull containing all scholarship indexed by Scopus for each researcher with a ScopusID (along with the scholarship metadata)
+	* A csv created by the python script in this repository which aggregates researchers by research keyword
 
-## The contents of the pulls were pasted into an excel spreadsheet titled "Directory Pull RAW" and lightly cleaned:
-	* Multiple spaces were deleted
-	* Periods were deleted
-	* Titles were added manually using the WMU People Search if missing: https://wmich.edu/peoplesearch/
+# Researcher Dataset Aggregation
 
-## The "Directory Pull RAW" was then copied over to a new sheet, where only faculty were retained:
-	* Any title containing "professor" [N=774]
-		--> conditional formatting was used to highlight this keyword, data was sorted by conditional formatting, remainder was deleted
-	* Any title containing "researcher" [N=0]
-		--> none were found that weren't already captured by the keyword "professor"
-	* Any title containing "chair" [N=49]
-		--> conditional formatting was used to highlight this keyword, data was sorted by conditional formatting, remainder was deleted
+## Researcher list aggregatation
+Conducted on: January 2024
+The Excel spreadsheet of tenure-track faculty and their affiliations generated in 2019 was used as the basis for the expanded researcher dataset. For more information about how this initial spreadsheet was generated, please see the previous version of this README.
 
-## Faculty-only list was looked over and the following was corrected:
-	* Spaces were introduced in names where FirstLast and FirstMiddle occurred
-	* Nicknames were replaced with full first names
-		--> name changes were highlighted in yellow
-	* Names were de-duplicated
-	
-# New hire additions
-Conducted on: 2019-08-22
-Used pdf of new faculty orientation list to supplement list from directory
-	--> omitted instructors, those without a title, and faculty specialists
-Also eliminated any individuals with visiting faculty or faculty specialist titles from main list at this time
-	--> due to lack of research or main affiliation to WMU
+### Additional researcher sources
+Due to the difficulties in obtaining a list of all faculty and researcher on campus, the original dataset was expanded by incorporating the following sources:
+	* A pull from Alma, a library management system that includes classification of users by type but does not include any additional user information. Only individuals with the classification "faculty" were retained
+	* A pull from Cognos, a university institutional data reporting system that includes titles but only provides information on instructors teaching in the past year. Only individuals with faculty classification were retained (assistant, associate, professor, part-time, specialist, etc)
+	* A pull from FARS, the faculty annual reporting system containing faculty research interests from the years 2019 and 2024, obtained from Institutional Research
+	* A spreadsheet of new hires, obtained from the 2023 new faculty orientation
+	* A spreadsheet of researchers involved in grant submissions over the past 6 years, obtained from the Office of Research and Innovation
+	* A spreadsheet of Wmed faculty, obtained from the grants coordinator at Wmed
+	* A faculty catalog from 2021, obtained from the WMU website
+	* The Board of Trustees (BoT) minutes from the past 3 years, obtained from ScholarWorks, WMU's institutional repository
+	* A list of research associates and deans, obtained from the Outlook directory
 
+### Corrections and exclusion criteria
+	* Names were de-duplicated, with researchers with multiple affiliations (departmental and university) being represented as one entry
+	* Individuals not found in the People Search (university directory), or who were listed as students or provisionary employees without a title were excluded from the list
+	* Names were devoid of special characters and contained the most complete version of the name, obtained from the People Search, ORCiD directory, or publication name in Scopus
+	* Nicknames, alternate names, and special characters were included in a separate column
+	* In the case where departmental affiliation or title were in any of the sources, a search was conducted within the university directory to obtain this extra information
 
-<The following were additional processes that were undertaken but can be skipped>
---
-# Matching to ORCiD
-Conducted: 2019-08-14 through 2019-08-22
-Matching faculty names to profiles in ORCiD
-	--> match with slightly different name was confirmed with faculty profile on WMU, and name in list was modified
-	--> ORCiD numbers were recorded
-	--> used ORCiD search to check all faculty entries against ORCiD database: https://orcid.org/orcid-search/search
+## Additional research keyword sources
+Conducted: April 2024
+In an effort to include more researchers in keyword matching within the python script pulling from the Scopus API, additional keywords were aggregated from the following sources:
+	* Bulleted research interests or topics listed within the biography within researcher WMU directory pages
+	* Bulleted research or topics listed within the biosketch within researcher Wmed diretory pages
+	* Keywords provided within ORCiD profiles
+	* Keywords provided by WMU faculty as part of FARS in 2019/2024
+	* Keywords provided within aggregate WMU department research websites
 
-## Profiles were encoded as follows:
-	* unconfirmed: one record, no information (record update date recorded)
-	* unconfirmed many:	many records without public information (manual investigation if less than 10 records)
+## ORCiD profile matching
+Conducted: February 2024
+### Matching faculty names to profiles in ORCiD
+	* used ORCiD search to check all faculty entries against ORCiD database: https://orcid.org/orcid-search/search
+	* match with slightly different name was confirmed with faculty profile on WMU, and name in list was modified
+	* ORCiD numbers were recorded
+	* ORCiD metadata in researcher profile was recorded (employment, linked profiles, number of works listed, keywords provided) 
+
+### ORCiD profiles were encoded as follows:
+	* confirmed: url to ORCiD profile
+	* unconfirmed: if records came up but it was not clear if they belonged to the WMU/Wmed researcher (and further coded as "one", "some", and "many" to indicate amount of unconfirmed results)
 	* no results: no results found | all results found were definitely not Western faculty (wrong field, recently updated profile with different university affiliation)
-	* affiliation update: Y if listed affiliation in profile | N if did not list affiliation but mentioned Western Michigan in biography, linked to faculty page, or was able to link based on affiliation in listed articles
+	* employment: title of latest employment location entered, or entered "none" if no employment was listed
 	
-# Matching to Publon by institution
-Conducted: 2019-08-22
-Matching faculty names to profiles in Publons (Web of Science): https://publons.com/institution/1024/
-	--> match with slightly different name was confirmed with faculty profile on WMU, and name in list was modified
-	--> Publon number was recorded
-	--> ORCiD number was recorded if Publon allowed for connection to be made
+## Scopus (Elsevier) profile matching
+Conducted: March 2024
+A number of researcher entries already contained ScopusIDs from the 2019 search (see previous version of this README to see how that was conducted), or through ScopusIDs provided as part of the ORCiD profile. Any researcher without a ScopusID was looked up manually by searching for first and last name within the Scopus Search. A download of all WMU-affiliated researchers within Scopus could be conducted, and those entries could be matched with the researcher dataset, but this would omit researchers who have not published since starting employment with WMU, researchers with multiple ScopusIDs, and could potentially result in a mismatch for researchers with similar names.
 
-Checked list with all four results (#: 332978, 91905, 1024, 59717)
-	--> initially cycled through people listed as affiliated to WMU in those lists
-	--> later used the browse researchers tab to try to get more matches: https://publons.com/researcher/?is_core_collection=1&order_by=verified_reviews_performed_last_12_months
----
+# Preparing Script Files
+Five plain text (txt) files are necessary to run the python script included in this repository, including a comma separated value (csv) file generated as part of the script:
+	* ScopusID_complete-list.txt, which is a list of all the research ScopusIDs, separated by commas
+	* ScopusID_WMU-list.txt, which is a list of only WMU reearcher ScopusIDs (excluding Wmed researchers), separated by commas <-- this can be excluded if the related sections are commented out
+	* 2024-04-17_research-articles-complete.csv, which is a spreadsheet generated by the scripting listing the metadata of all the scholarship generated by the ScopusIDs in the file ScopusID_complete-list.txt
+	* researcherID_scopusID.txt, which is a list of unique IDs assigned to each researcher connected to their ScopusID(s), in the format researcherID:ScopusID1; ScopusID2
+	* researcherID_additionalkeywords.txt, which is a list of unique IDs assigned to each researcher connected to a concatenated list of additional research keywords (ORCiD, FARS, directory, aggregate website) in the format researcherID:keyword1; keyword2
+	* researcherID_researcherdept.txt, which is a list of unique IDs assigned to each researcher connected to their publication name and affiliated departments in the format researcherID:name;department1 | department2
 
-
-# Matching to Scopus (Elsevier)
----
-<Intial attempt>
-## Affiliated via preview
-Conducted: 2019-08-23
-Filtered scopus by institution (search query to the right), viewed all authors, checked list with last names & selected "show preview" using arrow next to number of publications to access author details (profile)
-	--> AF-ID ( "Western Michigan University"   60000879 )  OR  AF-ID ( "Western Michigan University Battle Creek"   60028175 )  OR  AF-ID ( "Western Michigan University Grand Rapids"   60012902 )  OR  AF-ID ( "Western Michigan University Holland"   60002996 )  OR  AF-ID ( "Western Michigan University Homer Stryker M.D. School of Medicine"   60113710 )  OR  AF-ID ( "Western Michigan University Lansing"   60015211 )  OR  AF-ID ( "Western Michigan University Muskegon"   60003101 )  OR  ( ... )  OR  AF-ID ( "Western Michigan University Traverse City"   60021571 )
-	--> cycled through all affiliated profiles on first page of preview (didn't realize there were more pages)
-
-Extracted profile information using Xpath Helper
-	--> Topics (bottom tab) extracted with query: //table[@id='topics-table']/tbody//td[1]//span[@class='anchorText']
-	--> Subjects (floating) if length, extracted with query to string together with regex: //div[@id='subjectAreaBadges']/span[@class='badges']
-
-## Affiliated via download
-Conducted: 2019-09-05
-Filtered by affiliation "60000879" and downloaded entire list of authors affiliated with institution [N=4278]
-	--> https://www.scopus.com/affil/profile.uri?afid=60000879
-		-> clicked on number of authors (hyperlinked)
-		-> checked the box next to "All" in the bar above the results, and clicked "export CSV"
-	--> used data > text to columns in directory pull spreadsheet to separate out last name from first name
-	--> matched last name from directory pull with last name from affiliation download spreadsheet using IF formula:
-		=IF(C2="","",IF(COUNTIF('https://wmich-my.sharepoint.com/personal/djd9562_wmich_edu/Documents/Daria Notes/WMU Research Pull/outdated/[2019-08-22 Directory Pull.xlsx]2019-08-12 Faculty List'!$B:$B,C2)=0,"","x"))
-		in the Scopus affiliation download spreadsheet, if the last name first is not blank, then check it against the last name in the faculty directory pull spreadsheet
-		if you find a last name match, create an x; otherwise, leave the cell blank
-
-Used matches ("x") to quickly grab the <author ID> in the affiliated download spreadsheet to insert into the url: https://www.scopus.com/authid/detail.uri?authorId=<author ID>
-	--> extracted topivs and subjects from author profiles with the help of Xpath Helper
-			* Topics (bottom tab) extracted with query: //table[@id='topics-table']/tbody//td[1]//span[@class='anchorText']
-			* Subjects (floating) if length, extracted with query to string together with regex: //div[@id='subjectAreaBadges']/span[@class='badges']
-	--> recorded Scopus author ID (some had multiple)
-	--> performed quick search to make sure there were no additional Scopus author ids attached to same author
-	--> searched missing authors using author search function: https://www.scopus.com/search/form.uri?zone=TopNavBar&origin=searchbasic&display=basic#author
----
-
-## Suggestion based on attempt (for efficiency)
-Filter by affiliation and download entire list of authors affiliated with institution
-	--> https://www.scopus.com/affil/profile.uri?afid=60000879
-		-> click on number of authors (hyperlinked)
-		-> check the box next to "All" in the bar above the results, and clicked "export CSV"
-	--> use data > text to columns in directory pull spreadsheet to separate out last name from first name
-	--> match last name from directory pull with last name from affiliation download spreadsheet using IF formula:
-		=IF(C2="","",IF(COUNTIF('https://wmich-my.sharepoint.com/personal/djd9562_wmich_edu/Documents/Daria Notes/WMU Research Pull/outdated/[2019-08-22 Directory Pull.xlsx]2019-08-12 Faculty List'!$B:$B,C2)=0,"","x"))
-		in the Scopus affiliation download spreadsheet, if the last name first is not blank, then check it against the last name in the faculty directory pull spreadsheet
-		if you find a last name match, create an x; otherwise, leave the cell blank
-Use matches ("x") to quickly grab the <author ID> in the affiliated download spreadsheet to insert into the url: https://www.scopus.com/authid/detail.uri?authorId=<author ID>
-	--> record Scopus author ID (some had multiple)
-	[OPTIONAL, conduct for completion]
-	--> perform quick search to make sure there were no additional Scopus author ids attached to same author
-	--> search missing authors using author search function: https://www.scopus.com/search/form.uri?zone=TopNavBar&origin=searchbasic&display=basic#author
-
-## Extract author keywords using Scopus api and author IDs
-	--> request api access on Scopus
-	--> create a .txt document of author names and their scopus ids
-		AuthorFirst AuthorLast:ID1,ID2,ID3
-	--> import file into jupyter notebook "ScopusAPI_pull.ipynb", enter authentication key and run
-	--> copy or export out results of "ScopusAPI_pull.ipynb" script into a .csv file, with authors in one column and topics in the another
-
-# Preparing for Visualization
-Conducted: 2019-11-05
-## Clean the author keywords
-	--> author keywords are author-generated and not standardized
-		-> to create a network visualization with the maximum  amount of links, some cleaning is strongly recommended
-	--> then use OpenRefine to import your newly created .csv as a new project
-		-> standardize the case (lowercase)
-		-> trim whitespaces
-		-> use clustering to standarize the keywords until you are content
-		NOTE: decide if you want to keep the singular or plural version of each keyword (ex: students or student)
-	--> export project into a .csv and save your change log
-	--> use Excel to de-duplicate your author:topic entries
-	
-## Create dictionary of where author keyword is the key, and faculty who are studing a given topic are the values
-	--> use the jupyter notebook "Author Keywords to Faculty.ipynb" to import your cleaned .csv file and run to create a spreadsheet of topics, researchers involved in the topic, and their departments
-
-## Create linkages between faculty researching the same topic
-	--> manually create matches in the following format: facultyA topic facultyB
-		-> make sure that all faculty matches are accounted for
-		-> (ex: if there are 5 faculty studing the same topic, 10 matches should be made)
-	--> create a spreadsheet where one sheet is faculty links (RELATIONS), and the other is faculty information (name, department, title) (NODES)
-
-# Visualizing your research network in Cytoscape
-Conducted: 2019-11-08
-## Import spreadsheet
-	--> import network from file, choose RELATIONS
-		-> source - interaction - target
-	--> import table from file, choose NODES
-		-> selected networks only
-	--> group faculty by departments
-		-> layout > group attribute layout > all nodes > type (dept)
-		
-## Filtering based on researcher
-	--> use the bar on the top right to search for researcher (FirstName LastName)
-	--> select > nodes > nodes connected by selected edges (ctrl+7)
-	--> select > hide interjected nodes and edges
-	
-## Filtering based on topic
-	--> control panel on left hand side
-		-> select > edge:interaction contains <topic>
-		-> select > nodes > nodes connected by selected edges
-		-> select > hide interjected nodes and edges
-
+# Running Python Script
+The python script was prepared in python 3.9, using Jupyter notebooks as part of the Anaconda navigator. To run the script, place the script and the underlying files within the same folder. Then update the file names within the script, if necessary. For first time script runners, some python libraries will need to be installed prior to running using the pip installer (such as pybliometrics and pandas). Accessing the Scopus API requries obtaining a Scopus API key and being on the campus network to run a pull-- additional information is included within the jupyter notebook documentation. After all of these items are setup, the user can choose "Run All" to execute the entire script and receive all the file outputs, or just part of the script in case they just want to generate a Scopus scholarship pull. 
