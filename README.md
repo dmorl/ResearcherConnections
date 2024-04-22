@@ -1,5 +1,6 @@
 # WMU Researcher Connections Project
-Daria Orlowska, Data librarian and Assistant Professor at Western Michigan University <br>
+Main contact: Daria Orlowska, Data librarian and Assistant Professor at Western Michigan University <br>
+Programming collaborator: David Marchfield <br>
 Last updated: 2024-04-22
 
 # Purpose
@@ -76,3 +77,6 @@ Five plain text (txt) files are necessary to run the python script included in t
 
 # Running Python Script
 The python script was prepared in python 3.9, using Jupyter notebooks as part of the Anaconda navigator. To run the script, place the script and the underlying files within the same folder. Then update the file names within the script, if necessary. For first time script runners, some python libraries will need to be installed prior to running using the pip installer (such as pybliometrics and pandas). Accessing the Scopus API requries obtaining a Scopus API key and being on the campus network to run a pull-- additional information is included within the jupyter notebook documentation. After all of these items are setup, the user can choose "Run All" to execute the entire script and receive all the file outputs, or just part of the script in case they just want to generate a Scopus scholarship pull. 
+
+# Licensing
+This script is licensed as CC-0. Please feel free to reuse, remix, or adapt.
